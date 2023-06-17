@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
     const categoryData = await Category.findAll({
       include: [{ model: Product }],
     });
-    res.status(200).json(locationData);
+    res.status(200).json(categoryData);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -18,11 +18,11 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   // find one category by its `id` value
   try {
-    const categoryData = await Location.findByPk(req.params.id, {
+    const categoryData = await Category.findByPk(req.params.id, {
       include: [{ model: Product }],
     });
     if (!categoryData) {
-      res.status(404).json({ message: `No category located with id: ${id}. ` });
+      res.status(404).json({ message: `No category located with id: ${req.params.id}. ` });
       return;
     }
     res.status(200).json(categoryData);
@@ -50,7 +50,7 @@ router.put("/:id", async (req, res) => {
       },
     });
     if (!categoryData) {
-      res.status(404).json({ message: `${id} not found` });
+      res.status(404).json({ message: `${req.params.id} not found` });
       return;
     }
     res.status(200).json(categoryData);
@@ -68,7 +68,7 @@ router.delete("/:id", async (req, res) => {
       },
     });
     if (!categoryData) {
-      res.status(404).json({ message: `No category located with id: ${id}` });
+      res.status(404).json({ message: `No category located with id: ${req.params.id}` });
       return;
     }
     res.status(200).json(err);
